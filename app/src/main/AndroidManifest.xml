@@ -12,12 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTracker"
         tools:targetApi="31">
-<!--        <activity-->
-<!--            android:name=".LoginActivity"-->
-<!--            android:exported="false" />-->
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="false" />
+
+        <!-- Login Activity - Launches the App -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -26,9 +22,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResetPasswordActivity" />
 
-        <!--    </activity>-->
+        <!-- Register Activity -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+
+        <!-- Forgot/Reset Password Activity -->
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="false" />
+
+        <!-- Dashboard Activity -->
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+
+<!--        &lt;!&ndash; Add Expense Activity &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name=".AddExpenseActivity"-->
+<!--            android:exported="false" />-->
+
+<!--        &lt;!&ndash; Reports Activity &ndash;&gt;-->
+<!--        <activity-->
+<!--            android:name=".ReportsActivity"-->
+<!--            android:exported="false" />-->
+
     </application>
 
 </manifest>
