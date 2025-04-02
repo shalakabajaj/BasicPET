@@ -19,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox checkboxRememberMe;
     private TextView textForgotPassword, textSignUp;
     private SharedPreferences sharedPreferences;
+    private TextView textDashboard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         checkboxRememberMe = findViewById(R.id.checkboxRememberMe);
         textForgotPassword = findViewById(R.id.textForgotPassword);
         textSignUp = findViewById(R.id.textSignUp);
+        textDashboard = findViewById(R.id.textDashboard);
+        ;
 
         sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
         boolean isRemembered = sharedPreferences.getBoolean("rememberMe", false);
@@ -70,6 +74,12 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+        textDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, dashboardActivity.class));
+            }
+        });
     }
 
     private void loginUser() {
@@ -82,18 +92,22 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (checkboxRememberMe.isChecked()) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("email", email);
-            editor.putString("password", password);
-            editor.putBoolean("rememberMe", true);
-            editor.apply();
-        } else {
-            sharedPreferences.edit().clear().apply();
-        }
+        // You should implement actual authentication logic here
+        if (email.equals("test@example.com") && password.equals("password") && otp.equals("1234")) {
+            if (checkboxRememberMe.isChecked()) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("email", email);
+                editor.putBoolean("rememberMe", true);
+                editor.apply();
+            } else {
+                sharedPreferences.edit().clear().apply();
+            }
 
-        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+            Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, dashboardActivity.class)); // Fixed redirection
+            finish(); // Close LoginActivity to prevent going back
+        } else {
+            Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+        }
     }
 }
