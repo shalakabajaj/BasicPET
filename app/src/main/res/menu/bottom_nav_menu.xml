@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/baseline_add_home_24"
+        android:title="Dashboard" />
+
+    <item
+        android:id="@+id/nav_income"
+        android:icon="@drawable/baseline_add_box_24"
+        android:title="Income" />
+
+    <item
+        android:id="@+id/nav_expenses"
+        android:icon="@drawable/baseline_currency_rupee_24"
+        android:title="Expenses" />
+
+</menu>

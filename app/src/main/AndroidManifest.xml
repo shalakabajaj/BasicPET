@@ -38,7 +38,7 @@
             android:name=".addActivity"
             android:exported="false"/>
 
-        <activity android:name=".dashboardActivity" android:exported="false"/>
+        <activity android:name=".DashboardActivity" android:exported="false"/>
 
     </application>
 </manifest>

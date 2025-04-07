@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         textDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, dashboardActivity.class));
+                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
             }
         });
     }
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, dashboardActivity.class)); // Fixed redirection
+            startActivity(new Intent(LoginActivity.this, DashboardActivity.class)); // Fixed redirection
             finish(); // Close LoginActivity to prevent going back
         } else {
             Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
