@@ -1,17 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_img"
-    tools:context=".Expenses">
+    android:padding="16dp"
+    android:background="@drawable/bg_img">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Summary Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Income"
-        android:textSize="26dp"
-        android:layout_gravity="center"/>
+        app:cardElevation="4dp"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="#FFEBEE"
+        android:layout_marginBottom="12dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/totalExpense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Expense: BDT 0.0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#C62828" />
+
+            <TextView
+                android:id="@+id/monthlyExpense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This Month: BDT 0.0"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp"
+                android:textColor="#B71C1C"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Search and Filter Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <!-- (Optional) Search View could be added here if needed -->
+
+        <!-- Month Spinner -->
+        <Spinner
+            android:id="@+id/monthSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- Add Expense Button -->
+    <Button
+        android:id="@+id/btnAddExpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Expense"
+        android:drawableLeft="@drawable/baseline_add_box_24"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- RecyclerView for Expense Transactions -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/expenseRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp"
+        tools:listitem="@layout/item_expense" />
+
+</LinearLayout>

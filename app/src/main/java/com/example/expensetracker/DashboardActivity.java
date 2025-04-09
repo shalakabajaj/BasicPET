@@ -35,7 +35,7 @@ public class DashboardActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_income) {
                 replaceFragment(new Income());
             } else if (itemId == R.id.nav_expenses) {
-                replaceFragment(new Expenses());
+                replaceFragment(new Expense());
             }
 
             return true;
