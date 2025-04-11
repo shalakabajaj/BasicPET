@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -60,11 +62,16 @@ public class Expense extends Fragment {
         expenseAdapter = new ExpenseAdapter(new ArrayList<>());
         recyclerView.setAdapter(expenseAdapter);
 
+        // 👇 Set delete listener to refresh totals
+        expenseAdapter.setOnExpenseDeleteListener(() -> updateUI());
+
         // Setup month spinner
         String[] months = new DateFormatSymbols().getMonths();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, Arrays.asList(months).subList(0, 12));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSpinner.setAdapter(adapter);
+
+        monthSpinner.setSelection(getCurrentMonthIndex());
 
         monthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -73,7 +80,7 @@ public class Expense extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         btnAddExpense.setOnClickListener(v -> {
@@ -87,6 +94,7 @@ public class Expense extends Fragment {
 
     private void updateUI() {
         List<ExpenseModel> filteredList = filterExpensesForSelectedMonth();
+        Log.d("ExpenseFragment", "Expenses filtered: " + filteredList.size());
         expenseAdapter.setData(filteredList);
         updateSummaryCard(filteredList);
     }
@@ -137,9 +145,16 @@ public class Expense extends Fragment {
         return filtered;
     }
 
+    private int getCurrentMonthIndex() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.MONTH); // 0 = January
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         updateUI(); // Refresh data on return
     }
+
+
 }

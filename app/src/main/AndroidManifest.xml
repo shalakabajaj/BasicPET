@@ -40,6 +40,8 @@
 
         <activity android:name=".AddExpenseActivity"/>
 
+        <activity android:name=".EditExpenseActivity" />
+
 
         <activity android:name=".DashboardActivity" android:exported="false"/>
 

@@ -20,7 +20,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
-    ExpenseAdepter adepter;
+    ExpenseAdapter adepter;
 
     ArrayList<ExpenseModel> arrayList = new ArrayList<>();
 
@@ -42,53 +42,36 @@ public class RecyclerViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         sqlite = new ExpenseSqlite(this);
 
-
-
         loadData();
-
-
-
-
-
-
     }
+    public void loadData() {
+        Cursor cursor;
 
-
-    public void loadData(){
-
-
-        Cursor cursor = null;
-
-        if (REC_VIEW==true){
-
+        if (REC_VIEW) {
             cursor = sqlite.showExpenseRecyclerView();
             recyTv.setText("Expense List");
-
-
-        }else {
-
+        } else {
             cursor = sqlite.showIncomeRecyclerView();
             recyTv.setText("Income List");
         }
 
+        arrayList.clear(); // Clear old data before loading new
 
-        if (cursor!=null && cursor.getCount()>0){
+        if (cursor != null && cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                // Adjust these indexes to match your DB table columns
+                String title = cursor.getString(1);       // Title
+                double amount = cursor.getDouble(2);      // Amount
+                String date = cursor.getString(3);        // Date
+                String category = cursor.getString(4);    // Category
+                String note = cursor.getString(5);        // Note
 
-            while (cursor.moveToNext()){
-
-
-                int id = cursor.getInt(0);
-                String buy = cursor.getString(1);
-                String reason =  cursor.getString(2);
-
-                arrayList.add(new ExpenseModel(id,buy,reason));
-
+                arrayList.add(new ExpenseModel(title, amount, date, category, note));
             }
 
-            adepter = new ExpenseAdepter(arrayList,RecyclerViewActivity.this);
+            adepter = new ExpenseAdapter(arrayList);
             recyclerView.setAdapter(adepter);
-
-
         }
     }
+
 }

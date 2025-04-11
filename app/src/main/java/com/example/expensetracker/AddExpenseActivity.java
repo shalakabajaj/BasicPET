@@ -19,12 +19,12 @@ public class AddExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
 
-        etExpenseTitle = findViewById(R.id.etExpenseTitle);
-        etExpenseAmount = findViewById(R.id.etExpenseAmount);
-        etExpenseDate = findViewById(R.id.etExpenseDate);
-        etExpenseCategory = findViewById(R.id.etExpenseCategory);
-        etExpenseNote = findViewById(R.id.etExpenseNote);
-        btnSaveExpense = findViewById(R.id.btnSaveExpense);
+        etExpenseTitle = findViewById(R.id.titleInput);
+        etExpenseAmount = findViewById(R.id.amountInput);
+        etExpenseDate = findViewById(R.id.dateInput);
+        etExpenseCategory = findViewById(R.id.categoryInput);
+        etExpenseNote = findViewById(R.id.noteInput);
+        btnSaveExpense = findViewById(R.id.saveButton);
 
         btnSaveExpense.setOnClickListener(v -> {
             String title = etExpenseTitle.getText().toString().trim();
