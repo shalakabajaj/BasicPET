@@ -51,13 +51,23 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="8dp">
 
-        <!-- (Optional) Search View could be added here if needed -->
+        <!-- SearchView -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:queryHint="Search Expenses"
+            android:iconifiedByDefault="false"
+            android:layout_margin="8dp"/>
 
         <!-- Month Spinner -->
         <Spinner
             android:id="@+id/monthSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"/>
+
     </LinearLayout>
 
     <!-- Add Expense Button -->

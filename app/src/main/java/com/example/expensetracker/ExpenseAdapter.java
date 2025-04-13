@@ -9,19 +9,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder> {
 
     private List<ExpenseModel> expenseList;
+    private List<ExpenseModel> expenseListFull;
     private OnExpenseDeleteListener deleteListener;
+    private OnExpenseEditListener editListener;
 
+    // Interface for delete listener
     public interface OnExpenseDeleteListener {
         void onExpenseDeleted();
     }
 
-    public ExpenseAdapter(List<ExpenseModel> expenseList) {
+    // ✅ Interface for edit click listener
+    public interface OnExpenseEditListener {
+        void onEditClicked(ExpenseModel expense, int position);
+    }
+
+    // ✅ Updated constructor
+    public ExpenseAdapter(List<ExpenseModel> expenseList, OnExpenseEditListener editListener) {
         this.expenseList = expenseList;
+        this.expenseListFull = new ArrayList<>(expenseList);
+        this.editListener = editListener;
     }
 
     public void setOnExpenseDeleteListener(OnExpenseDeleteListener listener) {
@@ -30,7 +42,14 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
     public void setData(List<ExpenseModel> newList) {
         this.expenseList = newList;
+        this.expenseListFull = new ArrayList<>(newList);
         notifyDataSetChanged();
+    }
+
+    public void updateExpense(ExpenseModel updatedExpense, int position) {
+        expenseList.set(position, updatedExpense);
+        expenseListFull.set(position, updatedExpense);
+        notifyItemChanged(position);
     }
 
     @NonNull
@@ -51,10 +70,11 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.expenseCategory.setText("Category: " + expense.getCategory());
         holder.expenseNote.setText(expense.getNote());
 
+        // ✅ Edit click triggers listener callback
         holder.btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), EditExpenseActivity.class);
-            intent.putExtra("expense", expense); // 🔁 pass whole object
-            v.getContext().startActivity(intent);
+            if (editListener != null) {
+                editListener.onEditClicked(expense, holder.getAdapterPosition());
+            }
         });
 
         holder.btnDelete.setOnClickListener(v -> {
@@ -67,6 +87,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
                         expenseList.remove(positionToRemove);
                         ExpenseData.expenseList.remove(toRemove);
+                        expenseListFull.remove(toRemove);
 
                         notifyItemRemoved(positionToRemove);
 
@@ -84,8 +105,24 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         return expenseList.size();
     }
 
-    public static class ExpenseViewHolder extends RecyclerView.ViewHolder {
+    public void filterList(String query) {
+        if (query.isEmpty()) {
+            expenseList = new ArrayList<>(expenseListFull);
+        } else {
+            List<ExpenseModel> filteredList = new ArrayList<>();
+            for (ExpenseModel expense : expenseListFull) {
+                if (expense.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                        expense.getCategory().toLowerCase().contains(query.toLowerCase()) ||
+                        expense.getNote().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(expense);
+                }
+            }
+            expenseList = filteredList;
+        }
+        notifyDataSetChanged();
+    }
 
+    public static class ExpenseViewHolder extends RecyclerView.ViewHolder {
         TextView expenseTitle, expenseAmount, expenseDate, expenseCategory, expenseNote;
         ImageView btnEdit, btnDelete;
 
