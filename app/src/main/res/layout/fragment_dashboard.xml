@@ -13,23 +13,38 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header Card -->
-        <androidx.cardview.widget.CardView
+        <!-- Toolbar with Overlapping User Icon on the Right Side -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            app:cardBackgroundColor="#6200EE"
-            app:cardElevation="2dp"
-            android:layout_margin="8dp">
+            android:layout_height="wrap_content"
+            android:background="?android:attr/colorPrimary"
+            android:elevation="4dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Digital Money Bag"
+                android:text="Dashboard"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:layout_gravity="center" />
-        </androidx.cardview.widget.CardView>
+                android:padding="10dp" />
+
+            <!-- User Icon on the Right Side of the Toolbar -->
+            <ImageView
+                android:id="@+id/userIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/ic_user"
+                android:contentDescription="User Icon"
+                android:padding="6dp"
+                android:background="@drawable/circle_bg" />
+        </androidx.appcompat.widget.Toolbar>
 
         <!-- Pie Chart -->
         <com.github.mikephil.charting.charts.PieChart

@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -17,10 +18,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword, inputOTP;
     private Button btnLogin, btnResendOTP;
     private CheckBox checkboxRememberMe;
-    private TextView textForgotPassword, textSignUp;
+    private TextView textForgotPassword, textSignUp, textDashboard;
     private SharedPreferences sharedPreferences;
-    private TextView textDashboard;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,50 +35,29 @@ public class LoginActivity extends AppCompatActivity {
         textForgotPassword = findViewById(R.id.textForgotPassword);
         textSignUp = findViewById(R.id.textSignUp);
         textDashboard = findViewById(R.id.textDashboard);
-        ;
 
         sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-        boolean isRemembered = sharedPreferences.getBoolean("rememberMe", false);
 
+        boolean isRemembered = sharedPreferences.getBoolean("rememberMe", false);
         if (isRemembered) {
             inputEmail.setText(sharedPreferences.getString("email", ""));
             inputPassword.setText(sharedPreferences.getString("password", ""));
             checkboxRememberMe.setChecked(true);
         }
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginUser();
-            }
-        });
+        btnLogin.setOnClickListener(v -> loginUser());
 
-        btnResendOTP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "OTP Resent Successfully", Toast.LENGTH_SHORT).show();
-            }
-        });
+        btnResendOTP.setOnClickListener(v ->
+                Toast.makeText(LoginActivity.this, "OTP Resent Successfully", Toast.LENGTH_SHORT).show());
 
-        textForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
-            }
-        });
+        textForgotPassword.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class)));
 
-        textSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-            }
-        });
-        textDashboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-            }
-        });
+        textSignUp.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
+
+        textDashboard.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, DashboardActivity.class)));
     }
 
     private void loginUser() {
@@ -92,20 +70,26 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // You should implement actual authentication logic here
         if (email.equals("test@example.com") && password.equals("password") && otp.equals("1234")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
             if (checkboxRememberMe.isChecked()) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("email", email);
+                editor.putString("password", password);
                 editor.putBoolean("rememberMe", true);
-                editor.apply();
             } else {
-                sharedPreferences.edit().clear().apply();
+                editor.clear();
             }
 
+            editor.apply();
+
+            // Save login state in different prefs
+            SharedPreferences loginPrefs = getSharedPreferences("login_prefs", MODE_PRIVATE);
+            loginPrefs.edit().putBoolean("is_logged_in", true).apply();
+
             Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class)); // Fixed redirection
-            finish(); // Close LoginActivity to prevent going back
+            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            finish();
         } else {
             Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
         }

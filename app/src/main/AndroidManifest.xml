@@ -42,6 +42,9 @@
 
         <activity android:name=".EditExpenseActivity" />
 
+        <activity android:name=".AddBankAccountActivity"></activity>
+
+
 
         <activity android:name=".DashboardActivity" android:exported="false"/>
 
